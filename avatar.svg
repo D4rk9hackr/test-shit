@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Dot — the AI icon buddy">
+  <!--
+    Dot — profile mark.
+    Same geometry as the buddy on the page: one circle, two ellipses.
+    Scaled 1:1 from the 512 viewBox the page already uses, so the avatar
+    and the mascot are literally the same drawing.
+  -->
+
+  <!-- pitch-black field, rounded so it reads as a badge in a list -->
+  <rect x="0" y="0" width="512" height="512" rx="256" fill="#000"/>
+
+  <!-- hairline ring, inset so it survives a circular crop -->
+  <circle cx="256" cy="256" r="228" fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width="2"/>
+
+  <!-- the face -->
+  <circle cx="256" cy="256" r="180" fill="#ffffff"/>
+
+  <!-- blush — the one non-monochrome mark, happy only -->
+  <g opacity=".55">
+    <circle cx="176" cy="304" r="18" fill="#ff8fa3"/>
+    <circle cx="336" cy="304" r="18" fill="#ff8fa3"/>
+  </g>
+
+  <!-- the eyes, tracking straight ahead -->
+  <ellipse cx="200" cy="222" rx="30" ry="45" fill="#000000"/>
+  <ellipse cx="312" cy="222" rx="30" ry="45" fill="#000000"/>
+</svg>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>AI Icon Buddy — chat test</title>
+<meta name="description" content="Chat test for the AI icon buddy: does a two-oval mascot read as a companion in conversation? Local canned replies, no backend.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="buddy.css">
+<link rel="stylesheet" href="chat.css">
+
+<script>document.documentElement.className = "js";</script>
+</head>
+
+<body class="chat-shell">
+<div class="corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="topbar js-fade">
+  <h1 class="wordmark">AI Icon Buddy <span class="wordmark__sub">chat test</span></h1>
+  <p class="readout">
+    <span class="readout__dot" aria-hidden="true"></span>
+    state: <span id="readoutState">curious</span>
+    <span class="readout__tally" aria-hidden="true">· boops <span id="boopCount">0</span></span>
+  </p>
+</header>
+
+<main class="chat">
+
+  <section class="chat__buddy js-fade" aria-label="Buddy">
+    <button class="pet" type="button" id="pet" aria-label="Buddy — press to boop">
+      <span class="buddy__lean" id="lean">
+      <svg class="face" id="face" viewBox="0 0 512 512" data-mood="curious" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="faceClip"><circle cx="256" cy="256" r="240"/></clipPath>
+          <clipPath id="lidTop" clipPathUnits="userSpaceOnUse"><rect x="0" y="0" width="512" height="219"/></clipPath>
+          <clipPath id="lidLow" clipPathUnits="userSpaceOnUse"><rect x="0" y="222" width="512" height="290"/></clipPath>
+        </defs>
+        <circle class="disc" cx="256" cy="256" r="240"/>
+
+        <g class="blush" aria-hidden="true">
+          <circle cx="152" cy="268" r="26"/>
+          <circle cx="360" cy="268" r="26"/>
+        </g>
+        <g clip-path="url(#faceClip)">
+          <g class="eyes-glitch">
+          <g class="eyes-track" id="eyes-track">
+            <g class="eyes-blink" id="eyes-blink">
+              <ellipse class="eye eye--l" cx="180" cy="210" rx="42" ry="62"/>
+              <ellipse class="eye eye--r" cx="332" cy="210" rx="42" ry="62"/>
+            </g>
+          </g>
+          </g>
+        </g>
+      </svg>
+      </span>
+      <span class="pulse" id="pulse" aria-hidden="true"></span>
+    </button>
+
+    <p class="caption js-fade" id="caption" data-autolines="off" aria-live="polite">listening.</p>
+    <p class="spec" aria-hidden="true">one circle, two ellipses</p>
+  </section>
+
+  <section class="chat__panel js-fade" aria-label="Conversation">
+    <ol class="thread" id="thread" role="log" aria-live="polite" aria-relevant="additions">
+      <li class="thread__empty" id="empty">say something to wake it up.</li>
+    </ol>
+
+    <div class="suggest" role="group" aria-label="Try one of these">
+      <button type="button">hi</button>
+      <button type="button">what can you do?</button>
+      <button type="button">you're cute</button>
+      <button type="button">tell me a joke</button>
+    </div>
+
+    <form class="composer" id="composer">
+      <label class="sr-only" for="msg">Message</label>
+      <input id="msg" type="text" autocomplete="off" placeholder="say something…">
+      <button class="send" type="submit">send</button>
+    </form>
+
+    <p class="note">test build — replies are canned, there is no model behind it</p>
+  </section>
+
+</main>
+
+<script src="buddy.js" defer></script>
+<script src="chat.js" defer></script>
+</body>
+</html>

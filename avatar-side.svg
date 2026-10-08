@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Dot — eyes looking to the side, as if reading terminal output">
+  <!--
+    Dot, side-glancing: the eyes are shifted 22 units right, the same offset
+    the page uses when the cursor sits off to one side. Reads as "reading
+    terminal code / data output".
+  -->
+  <rect x="0" y="0" width="512" height="512" rx="256" fill="#000"/>
+  <circle cx="256" cy="256" r="228" fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width="2"/>
+  <circle cx="256" cy="256" r="180" fill="#ffffff"/>
+  <g opacity=".55">
+    <circle cx="176" cy="304" r="18" fill="#ff8fa3"/>
+    <circle cx="336" cy="304" r="18" fill="#ff8fa3"/>
+  </g>
+  <ellipse cx="222" cy="222" rx="30" ry="45" fill="#000000"/>
+  <ellipse cx="334" cy="222" rx="30" ry="45" fill="#000000"/>
+</svg>

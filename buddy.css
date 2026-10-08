@@ -1,0 +1,403 @@
+/* =========================================================================
+   AI Icon Buddy — a white circle that looks back
+   Monochrome by rule: pitch-black page, white face, black ovals.
+   State is expressed by shape and by inversion, never by colour —
+   the single exception is the blush, which only happy is allowed.
+   ========================================================================= */
+
+:root {
+  --void: #000;
+  --line: rgba(255, 255, 255, .14);
+  --line-soft: rgba(255, 255, 255, .07);
+  --dim: rgba(255, 255, 255, .56);
+  --faint: rgba(255, 255, 255, .34);
+
+  --shell: clamp(16px, 4vw, 40px);
+  --display: "Syne", "Space Grotesk", system-ui, sans-serif;
+  --text: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);   /* entering / exiting */
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1); /* morphing on screen */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--void);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--void);
+  color: #fff;
+  font-family: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+p, h1 { margin: 0; }
+
+::selection { background: #fff; color: #000; }
+
+:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* corner registration ticks ------------------------------------------------ */
+
+.corners i {
+  position: fixed;
+  z-index: 8;
+  width: 14px; height: 14px;
+  border: 0 solid rgba(255, 255, 255, .3);
+  pointer-events: none;
+}
+.corners i:nth-child(1) { top: 10px; left: 10px;  border-top-width: 1px; border-left-width: 1px; }
+.corners i:nth-child(2) { top: 10px; right: 10px; border-top-width: 1px; border-right-width: 1px; }
+.corners i:nth-child(3) { bottom: 10px; left: 10px;  border-bottom-width: 1px; border-left-width: 1px; }
+.corners i:nth-child(4) { bottom: 10px; right: 10px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* entrance: everything is visible without JS ------------------------------- */
+
+.js-fade { transition: opacity 520ms var(--ease); }
+.js:not(.is-ready) .js-fade { opacity: 0; }
+/* a group entrance wants a stagger, not one shared instant */
+.spec { transition-delay: 80ms; }
+.dock { transition-delay: 120ms; }
+
+/* topbar ------------------------------------------------------------------- */
+
+.topbar {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 15px var(--shell);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -.015em;
+}
+
+.readout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--dim);
+}
+.readout__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* stage -------------------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(26px, 5vh, 60px) var(--shell);
+  overflow: hidden;
+}
+
+.cross {
+  position: absolute;
+  background: rgba(255, 255, 255, .06);
+  pointer-events: none;
+}
+.cross--v { left: 50%; top: 0; bottom: 0; width: 1px; }
+.cross--h { top: 50%; left: 0; right: 0; height: 1px; }
+
+.watermark {
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(40px, 14vw, 216px);
+  letter-spacing: -.05em;
+  color: rgba(255, 255, 255, .055);
+  white-space: nowrap;
+  text-align: center;
+  user-select: none;
+  transition: opacity 160ms linear;
+}
+.watermark.is-swapping { opacity: 0; }
+
+.buddy {
+  --fs: clamp(210px, min(58vmin, 46vh), 500px);
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+}
+
+/* the pet button ------------------------------------------------------------ */
+
+.pet {
+  width: var(--fs);
+  height: var(--fs);
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+/* the boop squash and the pulse ring are driven from JS as a spring and a
+   WAAPI animation, so neither needs a keyframe here */
+
+/* the face leans toward the cursor, slower than the eyes — that lag is the
+   whole trick to making a flat disc feel like it has depth */
+.buddy__lean {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+}
+
+.face {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.js:not(.is-ready) .face { opacity: 0; }
+.js.is-ready .face { animation: faceIn 640ms var(--ease) both; }
+
+@keyframes faceIn {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.disc {
+  fill: #fff;
+}
+
+/* blush — cheeks, and the only colour anywhere on the page */
+.blush {
+  fill: #ff8fa3;
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+}
+.face[data-mood="happy"] .blush { opacity: .55; }
+/* pleased by attention even when a hand-picked mood is holding the eyes —
+   it shows happiness without taking the face over */
+#face.is-pleased .blush { opacity: .55; }
+
+.pulse {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, .85);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* eyes ----------------------------------------------------------------------
+   Every mood is the same two ovals at different proportions — the shapes in
+   the original icon never change, only their scale, tilt and position.
+   Transform origins are spelled out in user units so no transform-box
+   support is needed.                                                        */
+
+.eyes-blink {
+  transform: none;
+  transition: transform 90ms ease;
+}
+.eyes-blink.is-blinking,
+.eyes-blink.is-waking {
+  transform: translate(0, 210px) scale(1, .05) translate(0, -210px);
+}
+
+.face {
+  --sx: 1; --sy: 1; --tx: 0px; --ty: 0px; --rot: 0deg; --fill: #000;
+}
+
+.eye {
+  --ox: 180px;
+  --oy: 210px;
+  fill: var(--fill);
+  transform:
+    translate(var(--tx), var(--ty))
+    translate(var(--ox), var(--oy))
+    rotate(var(--rot))
+    scale(var(--sx), var(--sy))
+    translate(calc(-1 * var(--ox)), calc(-1 * var(--oy)));
+  transition: transform 340ms var(--ease-in-out);
+}
+.eye--r { --ox: 332px; }
+
+/* curious — the icon exactly as drawn */
+
+/* happy — squashed ovals cut to their upper cap, tilted into a smile */
+.face[data-mood="happy"] .eye {
+  --sy: .34; --sx: 1.02; --ty: -4px;
+  clip-path: url(#lidTop);
+}
+.face[data-mood="happy"] .eye--l { --rot: -8deg; }
+.face[data-mood="happy"] .eye--r { --rot: 8deg; }
+
+/* sleepy — low, drooping crescents: the lower cap of a squashed oval */
+.face[data-mood="sleepy"] .eye {
+  --sy: .26; --sx: .92; --ty: 18px;
+  clip-path: url(#lidLow);
+}
+
+/* suspicious — narrowed glare, still a solid oval */
+.face[data-mood="suspicious"] .eye { --sy: .46; --sx: 1.22; --ty: 6px; }
+
+/* alert — wide open */
+.face[data-mood="alert"] .eye { --sy: 1.28; --sx: 1.14; --ty: -6px; }
+
+/* offline — inversion: ring instead of disc, white eyes, occasional flicker */
+.face[data-mood="offline"] { --fill: #fff; }
+.face[data-mood="offline"] .disc {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 9px;
+}
+.js.is-ready .face[data-mood="offline"] { animation: flicker 3.6s linear infinite; }
+
+/* the tear lives on its own group: animating a custom property on the parent
+   would recalc style for every child element */
+.face[data-mood="offline"] .eyes-glitch { animation: glitchShift 5.4s steps(1, end) infinite; }
+
+@keyframes flicker {
+  0%, 6%   { opacity: 1; }
+  7%, 9%   { opacity: .18; }
+  10%, 52% { opacity: 1; }
+  53%, 55% { opacity: .45; }
+  56%, 100% { opacity: 1; }
+}
+
+/* steps(1) keeps every jump hard — the eyes slip out of register, then snap back */
+@keyframes glitchShift {
+  0%, 84%, 91%, 100% { transform: translateX(0); }
+  85% { transform: translateX(11px); }
+  87% { transform: translateX(-9px); }
+  89% { transform: translateX(4px); }
+}
+
+/* the boop startle overrides the current mood for a moment */
+#face.is-startled .eye {
+  --sy: 1.3;
+  --sx: 1.12;
+  clip-path: none;
+  transition-duration: 140ms;
+}
+
+/* caption + spec ------------------------------------------------------------ */
+
+.caption {
+  margin-top: clamp(22px, 4vh, 38px);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(19px, 2.6vw, 27px);
+  letter-spacing: -.01em;
+  text-align: center;
+  transition: opacity 520ms 80ms var(--ease);
+  transition-delay: 80ms;
+}
+.caption.is-fading { opacity: 0; transition: opacity 140ms var(--ease-out); }
+/* once the page is up, a swap is a swap: no entrance delay, no 640ms crawl */
+.js.is-ready .caption,
+.js.is-ready .caption.is-fading {
+  transition: opacity 180ms var(--ease-out);
+  transition-delay: 0ms;
+}
+
+.spec {
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .09em;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* dock ---------------------------------------------------------------------- */
+
+.dock {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 0 var(--shell) clamp(20px, 4vh, 40px);
+}
+
+.moods {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  width: min(700px, 100%);
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+}
+
+.moods button {
+  background: var(--void);
+  color: var(--dim);
+  border: 0;
+  padding: 13px 6px;
+  font-family: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: color 160ms linear, background 160ms linear;
+}
+/* touch devices fire a sticky hover — gate anything that inverts on hover */
+@media (hover: hover) and (pointer: fine) {
+  .moods button:hover { color: #fff; background: rgba(255, 255, 255, .05); }
+}
+.moods button[aria-pressed="true"] { background: #fff; color: #000; }
+
+.hint {
+  font-size: 12.5px;
+  color: var(--dim);
+  text-align: center;
+}
+
+/* responsive ---------------------------------------------------------------- */
+
+@media (max-width: 560px) {
+  .moods { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .caption { min-height: 2.7em; }
+  .topbar { justify-content: center; text-align: center; }
+}
+
+/* reduced motion ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* gentler, not zero: movement goes, but fades that carry meaning stay */
+  .js-fade, .caption, .blush {
+    transition-duration: 200ms !important;
+    transition-delay: 0ms !important;
+  }
+}

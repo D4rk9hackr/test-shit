@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>AI Icon Buddy</title>
+<meta name="description" content="An animated AI mascot icon: a white circle with two black oval eyes that follows your cursor, blinks, and changes mood.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="buddy.css">
+
+<script>document.documentElement.className = "js";</script>
+</head>
+
+<body>
+<div class="corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="topbar js-fade">
+  <h1 class="wordmark">AI Icon Buddy</h1>
+  <p class="readout">
+    <span class="readout__dot" aria-hidden="true"></span>
+    state: <span id="readoutState">curious</span>
+    <span class="readout__tally" aria-hidden="true">· boops <span id="boopCount">0</span></span>
+  </p>
+</header>
+
+<main class="stage">
+  <div class="cross cross--v" aria-hidden="true"></div>
+  <div class="cross cross--h" aria-hidden="true"></div>
+
+  <p class="watermark js-fade" id="watermark" aria-hidden="true">curious</p>
+
+  <div class="buddy">
+    <button class="pet" type="button" id="pet" aria-label="Buddy — press to boop">
+      <span class="buddy__lean" id="lean">
+      <svg class="face" id="face" viewBox="0 0 512 512" data-mood="curious" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="faceClip"><circle cx="256" cy="256" r="240"/></clipPath>
+          <clipPath id="lidTop" clipPathUnits="userSpaceOnUse"><rect x="0" y="0" width="512" height="219"/></clipPath>
+          <clipPath id="lidLow" clipPathUnits="userSpaceOnUse"><rect x="0" y="222" width="512" height="290"/></clipPath>
+        </defs>
+
+        <circle class="disc" cx="256" cy="256" r="240"/>
+
+        <g class="blush" aria-hidden="true">
+          <circle cx="152" cy="268" r="26"/>
+          <circle cx="360" cy="268" r="26"/>
+        </g>
+
+        <g clip-path="url(#faceClip)">
+          <g class="eyes-glitch">
+          <g class="eyes-track" id="eyes-track">
+            <g class="eyes-blink" id="eyes-blink">
+              <ellipse class="eye eye--l" cx="180" cy="210" rx="42" ry="62"/>
+              <ellipse class="eye eye--r" cx="332" cy="210" rx="42" ry="62"/>
+            </g>
+          </g>
+          </g>
+        </g>
+      </svg>
+      </span>
+      <span class="pulse" id="pulse" aria-hidden="true"></span>
+    </button>
+
+    <p class="caption js-fade" id="caption" aria-live="polite">watching the cursor.</p>
+    <p class="spec js-fade" aria-hidden="true">one circle, two ellipses</p>
+  </div>
+</main>
+
+<footer class="dock js-fade">
+  <div class="moods" role="group" aria-label="Buddy mood">
+    <button type="button" class="mood" data-mood="curious" aria-pressed="true">curious</button>
+    <button type="button" class="mood" data-mood="happy" aria-pressed="false">happy</button>
+    <button type="button" class="mood" data-mood="sleepy" aria-pressed="false">sleepy</button>
+    <button type="button" class="mood" data-mood="suspicious" aria-pressed="false">suspicious</button>
+    <button type="button" class="mood" data-mood="alert" aria-pressed="false">alert</button>
+    <button type="button" class="mood" data-mood="offline" aria-pressed="false">offline</button>
+  </div>
+  <p class="hint">it follows your cursor — click to boop</p>
+</footer>
+
+<script src="buddy.js" defer></script>
+</body>
+</html>
