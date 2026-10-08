@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Alex Rivera — Product Designer &amp; Front-end Developer</title>
+<meta name="description" content="Portfolio of Alex Rivera, product designer and front-end developer. Selected work in interface design, design systems, and front-end engineering.">
+
+<!--
+  ============================================================================
+  PLACEHOLDER CONTENT — REPLACE BEFORE PUBLISHING
+  ----------------------------------------------------------------------------
+  · Identity .......... "Alex Rivera" (header, hero, contact, footer, <title>)
+  · Projects .......... four sample case studies in #work — swap titles, role,
+                        years, summaries and images for your real work
+  · Contact ........... hello@example.com and all social hrefs in #contact/footer
+  · Imagery ........... all <img> use Unsplash placeholder photos (Unsplash
+                        License, https://unsplash.com/license). Replace with
+                        your own project imagery and update each alt text —
+                        alt text currently describes the placeholder role.
+  · Do not publish invented clients, metrics, awards or testimonials.
+  ============================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script>document.documentElement.className = "js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top">
+    <span class="brand__mark" aria-hidden="true">AR</span>
+    <span class="brand__name">Alex Rivera</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+    <span class="nav-toggle__label">Menu</span>
+    <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+  </button>
+
+  <nav class="site-nav" id="site-nav" aria-label="Primary">
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=72"
+        alt="Placeholder hero image showing a laptop with code — replace with your own work."
+        width="2000" height="1333" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="hero__inner">
+      <ul class="hero__meta" data-anim="fade">
+        <li>Product design</li>
+        <li>Front-end development</li>
+        <li>Available for select work — 2026</li>
+      </ul>
+
+      <div class="hero__body">
+        <p class="eyebrow" data-anim="fade">Portfolio — 2026</p>
+        <h1 class="hero__title" id="hero-title" data-split>
+          I design the interface, then I build it.
+        </h1>
+        <p class="hero__lede" data-anim="fade">
+          Alex Rivera is a product designer and front-end developer working across
+          design systems, interface architecture, and production React. The work
+          below is shown before the story is told.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SELECTED WORK ===================== -->
+  <section class="work" id="work" aria-labelledby="work-title">
+    <header class="section-head">
+      <p class="section-head__index">01 / Selected work</p>
+      <h2 class="section-head__title" id="work-title" data-split>Selected work</h2>
+      <p class="section-head__note">
+        Four projects, each treated as its own chapter. Title, role, year, and link
+        are readable without hovering.
+      </p>
+    </header>
+
+    <ol class="projects">
+
+      <!-- Project 01 -->
+      <li class="project project--field-sand">
+        <div class="project__meta">
+          <span class="project__index">01</span>
+          <span class="project__year">2025</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title" data-split>Northwind Transit</h3>
+          <p class="project__role">Product design · Front-end development</p>
+          <p class="project__summary">
+            Wayfinding and ticketing application for a regional transit network.
+            Journey planning, live departures, and accessible fare purchase.
+          </p>
+          <a class="project__action" href="#contact">
+            <span>View case study</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <figure class="project__media">
+          <img
+            src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=70"
+            alt="Placeholder image for the Northwind Transit project — replace with a real project screenshot."
+            width="1400" height="1050" loading="lazy" decoding="async">
+        </figure>
+      </li>
+
+      <!-- Project 02 -->
+      <li class="project project--field-ink">
+        <div class="project__meta">
+          <span class="project__index">02</span>
+          <span class="project__year">2024</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title" data-split>Ledger Design System</h3>
+          <p class="project__role">Design systems · React engineering</p>
+          <p class="project__summary">
+            A component library and token pipeline shared between Figma and code.
+            Documentation, contribution model, and visual regression coverage.
+          </p>
+          <a class="project__action" href="#contact">
+            <span>View case study</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <figure class="project__media">
+          <img
+            src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=70"
+            alt="Placeholder image for the Ledger Design System project — replace with a real project screenshot."
+            width="1400" height="1050" loading="lazy" decoding="async">
+        </figure>
+      </li>
+
+      <!-- Project 03 -->
+      <li class="project project--field-sage">
+        <div class="project__meta">
+          <span class="project__index">03</span>
+          <span class="project__year">2024</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title" data-split>Atlas Console</h3>
+          <p class="project__role">UX/UI design · Front-end development</p>
+          <p class="project__summary">
+            Operations analytics console for dense, keyboard-driven monitoring.
+            Configurable boards, saved views, and a query builder.
+          </p>
+          <a class="project__action" href="#contact">
+            <span>View case study</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <figure class="project__media">
+          <img
+            src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=70"
+            alt="Placeholder image for the Atlas Console project — replace with a real project screenshot."
+            width="1400" height="1050" loading="lazy" decoding="async">
+        </figure>
+      </li>
+
+      <!-- Project 04 -->
+      <li class="project project--field-ink">
+        <div class="project__meta">
+          <span class="project__index">04</span>
+          <span class="project__year">2023</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title" data-split>Field Notes</h3>
+          <p class="project__role">Product design · Full-stack development</p>
+          <p class="project__summary">
+            Editorial publishing tool for a small newsroom. Composable story blocks,
+            revision history, and a review workflow built for deadlines.
+          </p>
+          <a class="project__action" href="#contact">
+            <span>View case study</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <figure class="project__media">
+          <img
+            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=70"
+            alt="Placeholder image for the Field Notes project — replace with a real project screenshot."
+            width="1400" height="1050" loading="lazy" decoding="async">
+        </figure>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ===================== STUDIO ===================== -->
+  <section class="studio" id="studio" aria-labelledby="studio-title">
+    <header class="section-head">
+      <p class="section-head__index">02 / Studio</p>
+      <h2 class="section-head__title" id="studio-title" data-split>How the work gets made</h2>
+    </header>
+
+    <div class="studio__grid">
+      <div class="studio__statement">
+        <p data-anim="fade">
+          I work the way an editor works: decide what the page is arguing, cut
+          everything that does not argue it, then set the type. Interfaces are the
+          same problem with more states.
+        </p>
+        <p data-anim="fade">
+          Most projects arrive as a design question and leave as a codebase, so I
+          keep both in the same hands. That removes the translation layer where
+          intent usually goes missing.
+        </p>
+      </div>
+
+      <figure class="studio__media" data-anim="reveal">
+        <img
+          src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=70"
+          alt="Placeholder process image — replace with a photograph of your own desk, sketches, or working files."
+          width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption>Process, not presentation — replace with your own working files.</figcaption>
+      </figure>
+
+      <dl class="studio__facts" data-anim="fade">
+        <div><dt>Based in</dt><dd>Your City, Country</dd></div>
+        <div><dt>Focus</dt><dd>Interface design, design systems, front-end</dd></div>
+        <div><dt>Background</dt><dd>Design and engineering, in that order</dd></div>
+        <div><dt>Working with</dt><dd>Studios, product teams, founders</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section class="services" id="services" aria-labelledby="services-title">
+    <header class="section-head">
+      <p class="section-head__index">03 / Services</p>
+      <h2 class="section-head__title" id="services-title" data-split>Capabilities</h2>
+    </header>
+
+    <ul class="service-list">
+      <li>
+        <details class="service">
+          <summary><span class="service__name">Product design</span><span class="service__cue" aria-hidden="true">+</span></summary>
+          <div class="service__detail">
+            <p>End-to-end interface work: flows, wireframes, high-fidelity screens,
+            states, and the edge cases that decide whether a product feels finished.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="service">
+          <summary><span class="service__name">Design systems</span><span class="service__cue" aria-hidden="true">+</span></summary>
+          <div class="service__detail">
+            <p>Tokens, components, documentation, and contribution rules that keep
+            design and code describing the same thing.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="service">
+          <summary><span class="service__name">Front-end development</span><span class="service__cue" aria-hidden="true">+</span></summary>
+          <div class="service__detail">
+            <p>Production React and TypeScript, semantic HTML, CSS architecture,
+            accessibility to WCAG AA, and performance budgets that hold.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="service">
+          <summary><span class="service__name">Interaction &amp; motion</span><span class="service__cue" aria-hidden="true">+</span></summary>
+          <div class="service__detail">
+            <p>Choreography with a reason: transitions that explain a state change,
+            built with GSAP, and fully bypassed under reduced motion.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="service">
+          <summary><span class="service__name">Design-to-code handoff</span><span class="service__cue" aria-hidden="true">+</span></summary>
+          <div class="service__detail">
+            <p>I take the file I drew and ship it, which makes the handoff a
+            conversation with myself rather than a document.</p>
+          </div>
+        </details>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <p class="contact__index">04 / Contact</p>
+    <h2 class="contact__title" id="contact-title" data-split>Let's start with the work.</h2>
+    <p class="contact__lede">
+      Send a short brief — what you are building, where it stands, and when it needs
+      to exist. I reply to everything.
+    </p>
+    <a class="contact__action" href="mailto:hello@example.com">hello@example.com</a>
+    <ul class="contact__alt">
+      <li><a href="https://github.com/" rel="me noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/" rel="me noopener">LinkedIn</a></li>
+      <li><a href="https://read.cv/" rel="me noopener">Read.cv</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__row">
+    <p class="site-footer__brand">Alex Rivera — Product design &amp; front-end</p>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="site-footer__row site-footer__row--fine">
+    <p>Your City, Country · Remote worldwide</p>
+    <p>© 2026 Alex Rivera. All rights reserved.</p>
+    <p><a href="#top">Back to top ↑</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="main.js" defer></script>
+</body>
+</html>
