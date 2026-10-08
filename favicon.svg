@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AR">
+  <rect width="64" height="64" fill="#0a0a0b"/>
+  <rect x="3" y="3" width="58" height="58" fill="#e16133"/>
+  <text x="32" y="43" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-weight="700"
+        font-size="30" fill="#0a0a0b">AR</text>
+</svg>

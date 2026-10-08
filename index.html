@@ -3,30 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark light">
-<title>Alex Rivera — Product Designer &amp; Front-end Developer</title>
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a0a0b">
+<title>Alex Rivera - Product Designer &amp; Front-end Developer</title>
 <meta name="description" content="Portfolio of Alex Rivera, product designer and front-end developer. Selected work in interface design, design systems, and front-end engineering.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alex Rivera - Product Designer &amp; Front-end Developer">
+<meta property="og:description" content="Selected work in interface design, design systems, and front-end engineering.">
+<meta property="og:image" content="https://bears-glossary-developmental-navigate.trycloudflare.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
 
 <!--
   ============================================================================
-  PLACEHOLDER CONTENT — REPLACE BEFORE PUBLISHING
+  PLACEHOLDER CONTENT - REPLACE BEFORE PUBLISHING
   ----------------------------------------------------------------------------
-  · Identity .......... "Alex Rivera" (header, hero, contact, footer, <title>)
-  · Projects .......... four sample case studies in #work — swap titles, role,
-                        years, summaries and images for your real work
-  · Contact ........... hello@example.com and all social hrefs in #contact/footer
+  · Identity .......... "Alex Rivera" (header, hero, contact, footer, <title>,
+                        og:title) and the AR monogram in favicon.svg
+  · Projects .......... four sample entries in #work: Northwind Transit,
+                        Ledger, Quarry, Broadsheet. Swap titles, roles, years,
+                        summaries and images for your real work. When you add
+                        real case studies, turn each project title into a link.
+  · Contact ........... hello@example.com and all social hrefs in #contact
+  · Audience meta ...... og:image points at the current (ephemeral) tunnel URL;
+                        switch it to your final domain when you go live.
   · Imagery ........... all <img> use Unsplash placeholder photos (Unsplash
                         License, https://unsplash.com/license). Replace with
-                        your own project imagery and update each alt text —
-                        alt text currently describes the placeholder role.
+                        your own imagery and rewrite each alt text.
   · Do not publish invented clients, metrics, awards or testimonials.
   ============================================================================
 -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/Archivo-100-900-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="styles.css">
 
 <script>document.documentElement.className = "js";</script>
@@ -54,6 +65,8 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
+
+  <span class="site-header__progress" aria-hidden="true"></span>
 </header>
 
 <main id="main">
@@ -63,147 +76,138 @@
     <div class="hero__media">
       <img
         src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=72"
-        alt="Placeholder hero image showing a laptop with code — replace with your own work."
+        alt="Placeholder hero image. Replace with a photograph of your own work."
         width="2000" height="1333" fetchpriority="high" decoding="async">
     </div>
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="hero__inner">
-      <ul class="hero__meta" data-anim="fade">
-        <li>Product design</li>
-        <li>Front-end development</li>
-        <li>Available for select work — 2026</li>
-      </ul>
-
       <div class="hero__body">
-        <p class="eyebrow" data-anim="fade">Portfolio — 2026</p>
-        <h1 class="hero__title" id="hero-title" data-split>
-          I design the interface, then I build it.
-        </h1>
-        <p class="hero__lede" data-anim="fade">
+        <h1 class="hero__title" id="hero-title" data-split>Design it, then build it.</h1>
+        <p class="hero__lede">
           Alex Rivera is a product designer and front-end developer working across
-          design systems, interface architecture, and production React. The work
-          below is shown before the story is told.
+          design systems, interface architecture, and production React.
         </p>
+        <div class="hero__cta">
+          <a class="btn btn--solid" href="#work">Work <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn--line" href="#contact">Contact</a>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- ===================== CAPABILITY STRIP ===================== -->
+  <div class="strip">
+    <p class="sr-only">
+      Capabilities: interface design, design systems, front-end engineering,
+      interaction and motion, accessibility, prototyping.
+    </p>
+    <div class="strip__track" aria-hidden="true">
+      <div class="strip__set">
+        <span class="strip__item">Interface design</span>
+        <span class="strip__item">Design systems</span>
+        <span class="strip__item">Front-end engineering</span>
+        <span class="strip__item">Interaction and motion</span>
+        <span class="strip__item">Accessibility</span>
+        <span class="strip__item">Prototyping</span>
+      </div>
+      <div class="strip__set">
+        <span class="strip__item">Interface design</span>
+        <span class="strip__item">Design systems</span>
+        <span class="strip__item">Front-end engineering</span>
+        <span class="strip__item">Interaction and motion</span>
+        <span class="strip__item">Accessibility</span>
+        <span class="strip__item">Prototyping</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ===================== SELECTED WORK ===================== -->
   <section class="work" id="work" aria-labelledby="work-title">
     <header class="section-head">
-      <p class="section-head__index">01 / Selected work</p>
       <h2 class="section-head__title" id="work-title" data-split>Selected work</h2>
-      <p class="section-head__note">
-        Four projects, each treated as its own chapter. Title, role, year, and link
-        are readable without hovering.
-      </p>
     </header>
 
     <ol class="projects">
 
       <!-- Project 01 -->
-      <li class="project project--field-sand">
-        <div class="project__meta">
-          <span class="project__index">01</span>
-          <span class="project__year">2025</span>
+      <li class="project project--field-1">
+        <div class="project__inner">
+          <div class="project__body">
+            <h3 class="project__title" data-split>Northwind Transit</h3>
+            <p class="project__role">2025 &middot; Product design &middot; Front-end development</p>
+            <p class="project__summary">
+              Wayfinding and ticketing for a regional transit network. Journey
+              planning, live departures, and accessible fare purchase.
+            </p>
+          </div>
+          <figure class="project__media">
+            <img
+              src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=70"
+              alt="Northwind Transit. Placeholder project image, replace with a real screenshot."
+              width="1400" height="1050" loading="lazy" decoding="async">
+          </figure>
         </div>
-        <div class="project__body">
-          <h3 class="project__title" data-split>Northwind Transit</h3>
-          <p class="project__role">Product design · Front-end development</p>
-          <p class="project__summary">
-            Wayfinding and ticketing application for a regional transit network.
-            Journey planning, live departures, and accessible fare purchase.
-          </p>
-          <a class="project__action" href="#contact">
-            <span>View case study</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
-        <figure class="project__media">
-          <img
-            src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=70"
-            alt="Placeholder image for the Northwind Transit project — replace with a real project screenshot."
-            width="1400" height="1050" loading="lazy" decoding="async">
-        </figure>
       </li>
 
       <!-- Project 02 -->
-      <li class="project project--field-ink">
-        <div class="project__meta">
-          <span class="project__index">02</span>
-          <span class="project__year">2024</span>
+      <li class="project project--field-2">
+        <div class="project__inner">
+          <div class="project__body">
+            <h3 class="project__title" data-split>Ledger</h3>
+            <p class="project__role">2024 &middot; Design systems &middot; React engineering</p>
+            <p class="project__summary">
+              A component library and token pipeline shared between Figma and
+              code, with documentation and visual regression coverage.
+            </p>
+          </div>
+          <figure class="project__media">
+            <img
+              src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=70"
+              alt="Ledger. Placeholder project image, replace with a real screenshot."
+              width="1400" height="1050" loading="lazy" decoding="async">
+          </figure>
         </div>
-        <div class="project__body">
-          <h3 class="project__title" data-split>Ledger Design System</h3>
-          <p class="project__role">Design systems · React engineering</p>
-          <p class="project__summary">
-            A component library and token pipeline shared between Figma and code.
-            Documentation, contribution model, and visual regression coverage.
-          </p>
-          <a class="project__action" href="#contact">
-            <span>View case study</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
-        <figure class="project__media">
-          <img
-            src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=70"
-            alt="Placeholder image for the Ledger Design System project — replace with a real project screenshot."
-            width="1400" height="1050" loading="lazy" decoding="async">
-        </figure>
       </li>
 
       <!-- Project 03 -->
-      <li class="project project--field-sage">
-        <div class="project__meta">
-          <span class="project__index">03</span>
-          <span class="project__year">2024</span>
+      <li class="project project--field-3">
+        <div class="project__inner">
+          <div class="project__body">
+            <h3 class="project__title" data-split>Quarry</h3>
+            <p class="project__role">2024 &middot; UX/UI design &middot; Front-end development</p>
+            <p class="project__summary">
+              Operations analytics for dense, keyboard-driven monitoring.
+              Configurable boards, saved views, and a query builder.
+            </p>
+          </div>
+          <figure class="project__media">
+            <img
+              src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=70"
+              alt="Quarry. Placeholder project image, replace with a real screenshot."
+              width="1400" height="1050" loading="lazy" decoding="async">
+          </figure>
         </div>
-        <div class="project__body">
-          <h3 class="project__title" data-split>Atlas Console</h3>
-          <p class="project__role">UX/UI design · Front-end development</p>
-          <p class="project__summary">
-            Operations analytics console for dense, keyboard-driven monitoring.
-            Configurable boards, saved views, and a query builder.
-          </p>
-          <a class="project__action" href="#contact">
-            <span>View case study</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
-        <figure class="project__media">
-          <img
-            src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=70"
-            alt="Placeholder image for the Atlas Console project — replace with a real project screenshot."
-            width="1400" height="1050" loading="lazy" decoding="async">
-        </figure>
       </li>
 
       <!-- Project 04 -->
-      <li class="project project--field-ink">
-        <div class="project__meta">
-          <span class="project__index">04</span>
-          <span class="project__year">2023</span>
+      <li class="project project--field-4">
+        <div class="project__inner">
+          <div class="project__body">
+            <h3 class="project__title" data-split>Broadsheet</h3>
+            <p class="project__role">2023 &middot; Product design &middot; Full-stack development</p>
+            <p class="project__summary">
+              Editorial publishing for a small newsroom. Composable story blocks,
+              revision history, and a review workflow built for deadlines.
+            </p>
+          </div>
+          <figure class="project__media">
+            <img
+              src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=70"
+              alt="Broadsheet. Placeholder project image, replace with a real screenshot."
+              width="1400" height="1050" loading="lazy" decoding="async">
+          </figure>
         </div>
-        <div class="project__body">
-          <h3 class="project__title" data-split>Field Notes</h3>
-          <p class="project__role">Product design · Full-stack development</p>
-          <p class="project__summary">
-            Editorial publishing tool for a small newsroom. Composable story blocks,
-            revision history, and a review workflow built for deadlines.
-          </p>
-          <a class="project__action" href="#contact">
-            <span>View case study</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
-        <figure class="project__media">
-          <img
-            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=70"
-            alt="Placeholder image for the Field Notes project — replace with a real project screenshot."
-            width="1400" height="1050" loading="lazy" decoding="async">
-        </figure>
       </li>
 
     </ol>
@@ -212,36 +216,33 @@
   <!-- ===================== STUDIO ===================== -->
   <section class="studio" id="studio" aria-labelledby="studio-title">
     <header class="section-head">
-      <p class="section-head__index">02 / Studio</p>
       <h2 class="section-head__title" id="studio-title" data-split>How the work gets made</h2>
     </header>
 
     <div class="studio__grid">
       <div class="studio__statement">
-        <p data-anim="fade">
-          I work the way an editor works: decide what the page is arguing, cut
-          everything that does not argue it, then set the type. Interfaces are the
-          same problem with more states.
+        <p data-anim>
+          I design the interface, then write the front-end that ships it. One
+          person owns it from the first sketch to the merged pull request.
         </p>
-        <p data-anim="fade">
-          Most projects arrive as a design question and leave as a codebase, so I
-          keep both in the same hands. That removes the translation layer where
-          intent usually goes missing.
+        <p data-anim>
+          Most projects arrive as a design question and leave as a codebase.
+          Keeping both in the same hands removes the handoff, where intent goes
+          missing.
         </p>
       </div>
 
-      <figure class="studio__media" data-anim="reveal">
+      <figure class="studio__media" data-anim>
         <img
           src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=70"
-          alt="Placeholder process image — replace with a photograph of your own desk, sketches, or working files."
+          alt="Placeholder process image. Replace with a photograph of your own desk, sketches, or working files."
           width="1200" height="1500" loading="lazy" decoding="async">
-        <figcaption>Process, not presentation — replace with your own working files.</figcaption>
       </figure>
 
-      <dl class="studio__facts" data-anim="fade">
+      <dl class="studio__facts" data-anim>
         <div><dt>Based in</dt><dd>Your City, Country</dd></div>
         <div><dt>Focus</dt><dd>Interface design, design systems, front-end</dd></div>
-        <div><dt>Background</dt><dd>Design and engineering, in that order</dd></div>
+        <div><dt>Background</dt><dd>Design and engineering</dd></div>
         <div><dt>Working with</dt><dd>Studios, product teams, founders</dd></div>
       </dl>
     </div>
@@ -250,7 +251,6 @@
   <!-- ===================== SERVICES ===================== -->
   <section class="services" id="services" aria-labelledby="services-title">
     <header class="section-head">
-      <p class="section-head__index">03 / Services</p>
       <h2 class="section-head__title" id="services-title" data-split>Capabilities</h2>
     </header>
 
@@ -259,8 +259,9 @@
         <details class="service">
           <summary><span class="service__name">Product design</span><span class="service__cue" aria-hidden="true">+</span></summary>
           <div class="service__detail">
-            <p>End-to-end interface work: flows, wireframes, high-fidelity screens,
-            states, and the edge cases that decide whether a product feels finished.</p>
+            <p>End-to-end interface work: flows, wireframes, high-fidelity
+            screens, states, and the edge cases that decide whether a product
+            feels finished.</p>
           </div>
         </details>
       </li>
@@ -268,8 +269,8 @@
         <details class="service">
           <summary><span class="service__name">Design systems</span><span class="service__cue" aria-hidden="true">+</span></summary>
           <div class="service__detail">
-            <p>Tokens, components, documentation, and contribution rules that keep
-            design and code describing the same thing.</p>
+            <p>Tokens, components, documentation, and contribution rules that
+            keep design and code describing the same thing.</p>
           </div>
         </details>
       </li>
@@ -284,10 +285,10 @@
       </li>
       <li>
         <details class="service">
-          <summary><span class="service__name">Interaction &amp; motion</span><span class="service__cue" aria-hidden="true">+</span></summary>
+          <summary><span class="service__name">Interaction and motion</span><span class="service__cue" aria-hidden="true">+</span></summary>
           <div class="service__detail">
-            <p>Choreography with a reason: transitions that explain a state change,
-            built with GSAP, and fully bypassed under reduced motion.</p>
+            <p>Transitions that explain a state change rather than decorate it,
+            built with GSAP and skipped entirely under reduced motion.</p>
           </div>
         </details>
       </li>
@@ -295,8 +296,9 @@
         <details class="service">
           <summary><span class="service__name">Design-to-code handoff</span><span class="service__cue" aria-hidden="true">+</span></summary>
           <div class="service__detail">
-            <p>I take the file I drew and ship it, which makes the handoff a
-            conversation with myself rather than a document.</p>
+            <p>I take the file I drew and ship it, so there is no specification
+            to interpret. The design and build stay in agreement by
+            construction.</p>
           </div>
         </details>
       </li>
@@ -305,11 +307,10 @@
 
   <!-- ===================== CONTACT ===================== -->
   <section class="contact" id="contact" aria-labelledby="contact-title">
-    <p class="contact__index">04 / Contact</p>
-    <h2 class="contact__title" id="contact-title" data-split>Let's start with the work.</h2>
+    <h2 class="contact__title" id="contact-title" data-split>Let&rsquo;s start with the work.</h2>
     <p class="contact__lede">
-      Send a short brief — what you are building, where it stands, and when it needs
-      to exist. I reply to everything.
+      Send a short brief: what you are building, where it stands, and when it
+      needs to exist. I reply to everything.
     </p>
     <a class="contact__action" href="mailto:hello@example.com">hello@example.com</a>
     <ul class="contact__alt">
@@ -323,7 +324,7 @@
 
 <footer class="site-footer">
   <div class="site-footer__row">
-    <p class="site-footer__brand">Alex Rivera — Product design &amp; front-end</p>
+    <p class="site-footer__brand">Alex Rivera, product design and front-end</p>
     <nav aria-label="Footer">
       <ul>
         <li><a href="#work">Work</a></li>
@@ -334,9 +335,8 @@
     </nav>
   </div>
   <div class="site-footer__row site-footer__row--fine">
-    <p>Your City, Country · Remote worldwide</p>
-    <p>© 2026 Alex Rivera. All rights reserved.</p>
-    <p><a href="#top">Back to top ↑</a></p>
+    <p>&copy; 2026 Alex Rivera. All rights reserved.</p>
+    <p><a href="#top">Back to top &uarr;</a></p>
   </div>
 </footer>
 

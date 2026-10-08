@@ -142,9 +142,9 @@
   }
 
   /* --------------------------------------------------------- split for stagger
-     Wraps words in spans so headings can stagger line-by-line. The accessible
-     name is preserved: we set aria-label on the heading (the full sentence) and
-     mark the decorative word spans aria-hidden. Without JS the heading keeps its
+     Wraps words in spans so headings can stagger. The accessible name is
+     preserved: we set aria-label on the heading (the full sentence) and mark
+     the decorative word spans aria-hidden. Without JS the heading keeps its
      original plain text, so the name is never lost.                            */
 
   function splitWords(el) {
@@ -153,11 +153,11 @@
 
     const frag = doc.createDocumentFragment();
     text.split(" ").forEach((word, i, all) => {
-      const mask = doc.createElement("span");
-      mask.className = "split-word";
-      mask.setAttribute("aria-hidden", "true");
-      mask.textContent = word;
-      frag.appendChild(mask);
+      const span = doc.createElement("span");
+      span.className = "split-word";
+      span.setAttribute("aria-hidden", "true");
+      span.textContent = word;
+      frag.appendChild(span);
       if (i < all.length - 1) frag.appendChild(doc.createTextNode(" "));
     });
 
@@ -176,135 +176,151 @@
     const ST = window.ScrollTrigger;
 
     const EASE = "power3.out";
-    const ENTER = 0.68;   // 680ms section entrances — inside 500–760ms
+    const ENTER = 0.68;   // 680ms section entrances
     const CTRL = 0.2;     // 200ms control feedback
 
-    /* Hero intro — nav, identity, message and CTA all readable before and
-       during the sequence; nothing is left hidden if it never completes. */
+    /* Hero intro. Everything animates transform + opacity only, and every
+       end state is declared with fromTo, so a half-finished timeline can
+       never leave an element captured at opacity 0. */
+    const heroTitle = doc.querySelector(".hero__title");
+    const heroWords = heroTitle ? splitWords(heroTitle) : [];
+
     const intro = gsap.timeline({ defaults: { ease: EASE } });
 
-    /* Explicit fromTo everywhere: a `from()` infers its end value from the
-       element's current state at render time, which is wrong if another tween
-       has already zeroed it. Declared end states cannot be captured as 0. */
     intro
-      .fromTo(".site-header", { y: -14, opacity: 0 }, { y: 0, opacity: 1, duration: CTRL })
-      .fromTo(".hero__meta li",
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.055 }, 0.1)
-      .fromTo(".hero .eyebrow",
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5 }, 0.2);
+      .fromTo(".site-header", { y: -14, opacity: 0 },
+        { y: 0, opacity: 1, duration: CTRL })
+      .fromTo(".hero__media img", { scale: 1.08, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.1, ease: "power2.out" }, 0);
 
-    const heroTitle = doc.querySelector(".hero__title");
-    if (heroTitle) {
-      const words = splitWords(heroTitle);
-      intro.fromTo(words,
-        { yPercent: 110 },
-        { yPercent: 0, duration: 0.82, stagger: 0.05 }, 0.24);
+    if (heroWords.length) {
+      intro.fromTo(heroWords, { y: 34, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.72, stagger: 0.045 }, 0.16);
     }
 
-    intro.fromTo(".hero__lede",
-      { y: 16, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6 }, 0.55);
-    intro.fromTo(".hero__scrim", { opacity: 0 }, { opacity: 1, duration: 0.9 }, 0);
+    intro
+      .fromTo(".hero__lede", { y: 18, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55 }, 0.5)
+      .fromTo(".hero__cta > *", { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.08 }, 0.62);
 
-    // Parallax kept under 5% — the hero stays stable enough to study
-    gsap.to(".hero__media img", {
-      yPercent: 4,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-    });
-
-    /* Section entrances: headings reveal word by word, supporting copy and
-       media follow with a restrained stagger. */
+    /* Section headings reveal word by word as they enter. */
     doc.querySelectorAll("[data-split]").forEach((el) => {
       if (el === heroTitle) return;
       const words = splitWords(el);
-      gsap.set(words, { yPercent: 105 });
-      gsap.to(words, {
-        yPercent: 0,
-        duration: ENTER,
-        ease: EASE,
-        stagger: 0.055,
-        scrollTrigger: { trigger: el, start: "top 86%", once: true },
-      });
-    });
-
-    doc.querySelectorAll("[data-anim]").forEach((el) => {
-      // The intro timeline already owns everything inside the hero; binding a
-      // second tween to the same property makes each one record the other's
-      // zeroed state as its end value, leaving the element stuck invisible.
-      if (el.closest(".hero")) return;
-      gsap.fromTo(el,
-        { y: 22, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: ENTER,
-          ease: EASE,
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-        }
-      );
-    });
-
-    /* Editorial project panel reveal — height is reserved by aspect-ratio in
-       CSS, so we only animate the image layer inside its clip. Titles and
-       metadata sit outside the clip and stay selectable throughout. */
-    doc.querySelectorAll(".project").forEach((p, i) => {
-      const img = p.querySelector(".project__media img");
-      const body = p.querySelectorAll(".project__meta, .project__title, .project__role, .project__summary, .project__action");
-
-      if (img) {
-        gsap.fromTo(img,
-          { yPercent: 12, scale: 1.06 },
-          {
-            yPercent: 0, scale: 1,
-            duration: 0.76,
-            ease: EASE,
-            delay: (i % 2) * 0.05,
-            scrollTrigger: { trigger: p, start: "top 82%", once: true },
-          }
-        );
-      }
-
-      gsap.fromTo(body,
-        { y: 18, opacity: 0 },
+      gsap.fromTo(words, { y: 26, opacity: 0 },
         {
           y: 0, opacity: 1,
-          duration: 0.6,
+          duration: ENTER,
           ease: EASE,
-          stagger: 0.06,
-          scrollTrigger: { trigger: p, start: "top 82%", once: true },
-        }
-      );
+          stagger: 0.05,
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+        });
     });
 
-    /* Oversized service handoff — the mask retracts as each row enters, so the
-       scale reads without any layout movement. */
+    /* Supporting copy and media follow with a restrained lift. */
+    doc.querySelectorAll("[data-anim]").forEach((el) => {
+      // The intro timeline already owns everything inside the hero.
+      if (el.closest(".hero")) return;
+      gsap.fromTo(el, { y: 24, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: ENTER,
+          ease: EASE,
+          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+        });
+    });
+
+    /* Project chapters. Height is reserved by aspect-ratio in CSS, so only
+       the image layer moves inside its clip; copy sits outside and stays
+       selectable throughout. */
+    doc.querySelectorAll(".project").forEach((p) => {
+      const img = p.querySelector(".project__media img");
+      const body = p.querySelectorAll(
+        ".project__title, .project__role, .project__summary");
+
+      if (img) {
+        gsap.fromTo(img, { yPercent: 8, scale: 1.07, opacity: 0 },
+          {
+            yPercent: 0, scale: 1, opacity: 1,
+            duration: 0.78,
+            ease: EASE,
+            scrollTrigger: { trigger: p, start: "top 78%", once: true },
+          });
+      }
+
+      if (body.length) {
+        gsap.fromTo(body, { y: 20, opacity: 0 },
+          {
+            y: 0, opacity: 1,
+            duration: 0.6,
+            ease: EASE,
+            stagger: 0.06,
+            scrollTrigger: { trigger: p, start: "top 78%", once: true },
+          });
+      }
+    });
+
+    /* Oversized service handoff - the mask retracts as each row enters, so
+       the scale reads without any layout movement. */
     doc.querySelectorAll(".service__name").forEach((name) => {
-      gsap.fromTo(
-        name,
-        { "--reveal": "0%" },
+      gsap.fromTo(name, { "--reveal": "0%" },
         {
           "--reveal": "100%",
           duration: 0.72,
           ease: EASE,
-          scrollTrigger: { trigger: name, start: "top 88%", once: true },
-        }
-      );
+          scrollTrigger: { trigger: name, start: "top 90%", once: true },
+        });
     });
 
-    /* Contact chapter — the one place the signal colour takes the page. */
-    gsap.fromTo(".contact > *",
-      { y: 26, opacity: 0 },
+    /* Contact chapter - the one place the signal colour takes the page. */
+    gsap.fromTo(".contact__lede, .contact__action, .contact__alt",
+      { y: 24, opacity: 0 },
       {
         y: 0, opacity: 1,
-        duration: 0.66,
+        duration: 0.62,
         ease: EASE,
-        stagger: 0.06,
-        scrollTrigger: { trigger: ".contact", start: "top 78%", once: true },
-      }
-    );
+        stagger: 0.07,
+        scrollTrigger: { trigger: ".contact", start: "top 74%", once: true },
+      });
+
+    /* Reading position in the header. Scroll-driven, not a scroll listener. */
+    const progress = doc.querySelector(".site-header__progress");
+    if (progress) {
+      gsap.fromTo(progress, { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: doc.body,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.3,
+          },
+        });
+    }
+
+    /* Sticky-stack depth: CSS position:sticky pins the cards, GSAP only
+       drives the outgoing card's scale/opacity off the NEXT card arriving.
+       Scoped to desktop widths where the sticky rules are active. */
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 900px)", () => {
+      const cards = gsap.utils.toArray(".project");
+      cards.forEach((card, i) => {
+        if (i === cards.length - 1) return;
+        gsap.to(card, {
+          scale: 0.93,
+          opacity: 0.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: cards[i + 1],
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          },
+        });
+      });
+    });
 
     /* Refresh measurements once fonts and below-fold media settle, so pins and
        triggers line up after layout shifts. */
@@ -314,6 +330,7 @@
 
     cleanups.push(() => {
       window.removeEventListener("load", refresh);
+      mm.revert();
       ST.getAll().forEach((t) => t.kill());
       gsap.globalTimeline.clear();
     });
