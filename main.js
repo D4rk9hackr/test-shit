@@ -237,7 +237,7 @@
     doc.querySelectorAll(".project").forEach((p) => {
       const img = p.querySelector(".project__media img");
       const body = p.querySelectorAll(
-        ".project__title, .project__role, .project__summary");
+        ".project__year, .project__title, .project__role, .project__summary");
 
       if (img) {
         gsap.fromTo(img, { yPercent: 8, scale: 1.07, opacity: 0 },
@@ -308,17 +308,19 @@
       const cards = gsap.utils.toArray(".project");
       cards.forEach((card, i) => {
         if (i === cards.length - 1) return;
-        gsap.to(card, {
-          scale: 0.93,
-          opacity: 0.5,
-          ease: "none",
+        const media = card.querySelector(".project__media");
+        const body = card.querySelector(".project__body");
+        gsap.timeline({
           scrollTrigger: {
             trigger: cards[i + 1],
             start: "top bottom",
             end: "top top",
             scrub: true,
           },
-        });
+        })
+          .to(card, { scale: 0.93, ease: "none" }, 0)
+          .to(media, { opacity: 0.5, ease: "none" }, 0)
+          .to(body, { opacity: 0.15, ease: "none" }, 0);
       });
     });
 

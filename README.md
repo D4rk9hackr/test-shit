@@ -36,6 +36,15 @@ python3 -m http.server 8080
 - **Signal colour** — `#e16133`, HSL saturation 74% (< 80%), used identically
   for the contact block, focus rings, scroll progress, marquee separators and
   hover states so it never loses its charge. Verifiable ratios: 5.62:1 on ink.
+- **Project cards** — each card carries a mono year slot, a title, a role/scope
+  line, and a summary; the result tier is reserved for one measurable claim
+  per project once real work lands. Hover brightens the plate only — never
+  zooms or implies a link — and an overflow outlet after the stack names the
+  archive.
+- **Imagery treatments** — four plates share one dark family but no single
+  filter: black-and-white, full colour, a signal-tinted duotone, and a closer
+  crop, so four projects read as four artifacts, not one filter applied four
+  times.
 - **Section sequence** — header → hero → capabilities marquee → sticky-stack
   work → studio → oversized services → contact → footer.
 
@@ -47,8 +56,10 @@ python3 -m http.server 8080
 - **Sticky stack** — the four chapters use CSS `position: sticky` (top: 0,
   `min-height: 100svh`, gated to ≥900px + `prefers-reduced-motion:
   no-preference`), not sequential reveals. Each card is driven by the *next*
-  card's ScrollTrigger: it scales to 0.93 and fades to 0.5 as the next chapter
-  arrives, and the whole stack leaves together at the end.
+  card's ScrollTrigger: the outgoing card scales to 0.93, its media fades to
+  0.5 and its copy to 0.15 as the next chapter arrives, and the whole stack
+  leaves together at the end. Copy fades harder than media so the stack reads
+  artifact-over-artifact, not text-over-text.
 - **Three.js — not used.** The concept is editorial and typographic; there is
   no spatial depth or pointer-driven texture that would justify a WebGL
   context. Adding one would be ornamental.
@@ -114,6 +125,22 @@ Bugs found and fixed during this pass:
    project titles were an enumeration tell. Removed; years moved into the
    mono role line.
 
+### Impeccable critique pass #1 (2026-10-08)
+
+A dual-agent critique scored 25/32 (Good) and its backlog was fixed and
+re-validated (snapshot closed):
+
+| Fix | Result |
+| --- | --- |
+| Dead card affordances removed (no hover zoom) + work overflow outlet | pass |
+| Project metadata grammar: `.project__year` slot + role/scope tier | year ≥ 10.85:1 on every field |
+| Terminology unified: nav "Capabilities", marquee = the five service terms | pass |
+| Imagery differentiated: four distinct plate treatments | duotone overlay painted |
+| Contrast re-checked on every new element | ≥ 5.01:1 |
+| Console errors, overflow, focus, keyboard, reduced motion | all clean after edits |
+
+Snapshot: `.impeccable/critique/2026-10-08T16-50-04Z__index-html.md` (closed).
+
 ## Before you publish — replace all of this
 
 Everything below is placeholder. Search for it and swap in your own.
@@ -124,10 +151,14 @@ Everything below is placeholder. Search for it and swap in your own.
    final domain (and regenerate `og.png` with the same treatment if you change
    the name).
 2. **Projects** — the four entries under `#work` (Northwind Transit, Ledger,
-   Quarry, Broadsheet) are samples. Replace titles, roles, years, summaries,
-   and images with real work. When you add real case studies, turn each project
-   title into a link.
-3. **Contact** — `hello@example.com` and the GitHub / LinkedIn / Read.cv hrefs.
+   Quarry, Broadsheet) are samples. Each card has a year slot
+   (`.project__year`) and a role/scope line (`.project__role`); the result tier
+   is reserved for one measurable claim per project. Replace titles, roles,
+   years, summaries, and images with real work. When real case studies exist,
+   add them, make each project title a link, and point the `.work__outlet`
+   links at the real archive.
+3. **Contact** — `hello@example.com`, the GitHub / LinkedIn / Read.cv hrefs,
+   and the same two hrefs repeated in the `.work__outlet` archive line.
 4. **Images** — every `<img>` is an Unsplash placeholder (Unsplash License:
    https://unsplash.com/license). Replace the `src` **and** the `alt` text —
    alt currently describes the placeholder, not real content.

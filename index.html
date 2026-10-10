@@ -21,9 +21,13 @@
   · Identity .......... "Alex Rivera" (header, hero, contact, footer, <title>,
                         og:title) and the AR monogram in favicon.svg
   · Projects .......... four sample entries in #work: Northwind Transit,
-                        Ledger, Quarry, Broadsheet. Swap titles, roles, years,
-                        summaries and images for your real work. When you add
-                        real case studies, turn each project title into a link.
+                        Ledger, Quarry, Broadsheet. Each card has a year slot
+                        (.project__year) and a role/scope line (.project__role);
+                        the result tier is reserved for later: one measurable
+                        claim per project. Swap titles, roles, years, summaries
+                        and images for your real work. When real case studies
+                        exist, make each project title a link and drop the
+                        hover-on-work-outlet convention.
   · Contact ........... hello@example.com and all social hrefs in #contact
   · Audience meta ...... og:image points at the current (ephemeral) tunnel URL;
                         switch it to your final domain when you go live.
@@ -61,7 +65,7 @@
     <ul>
       <li><a href="#work">Work</a></li>
       <li><a href="#studio">Studio</a></li>
-      <li><a href="#services">Services</a></li>
+      <li><a href="#services">Capabilities</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -99,25 +103,23 @@
   <!-- ===================== CAPABILITY STRIP ===================== -->
   <div class="strip">
     <p class="sr-only">
-      Capabilities: interface design, design systems, front-end engineering,
-      interaction and motion, accessibility, prototyping.
+      Capabilities: product design, design systems, front-end development,
+      interaction and motion, design-to-code handoff.
     </p>
     <div class="strip__track" aria-hidden="true">
       <div class="strip__set">
-        <span class="strip__item">Interface design</span>
+        <span class="strip__item">Product design</span>
         <span class="strip__item">Design systems</span>
-        <span class="strip__item">Front-end engineering</span>
+        <span class="strip__item">Front-end development</span>
         <span class="strip__item">Interaction and motion</span>
-        <span class="strip__item">Accessibility</span>
-        <span class="strip__item">Prototyping</span>
+        <span class="strip__item">Design-to-code handoff</span>
       </div>
       <div class="strip__set">
-        <span class="strip__item">Interface design</span>
+        <span class="strip__item">Product design</span>
         <span class="strip__item">Design systems</span>
-        <span class="strip__item">Front-end engineering</span>
+        <span class="strip__item">Front-end development</span>
         <span class="strip__item">Interaction and motion</span>
-        <span class="strip__item">Accessibility</span>
-        <span class="strip__item">Prototyping</span>
+        <span class="strip__item">Design-to-code handoff</span>
       </div>
     </div>
   </div>
@@ -134,8 +136,9 @@
       <li class="project project--field-1">
         <div class="project__inner">
           <div class="project__body">
+            <p class="project__year">2025</p>
             <h3 class="project__title" data-split>Northwind Transit</h3>
-            <p class="project__role">2025 &middot; Product design &middot; Front-end development</p>
+            <p class="project__role">Product design / Front-end development</p>
             <p class="project__summary">
               Wayfinding and ticketing for a regional transit network. Journey
               planning, live departures, and accessible fare purchase.
@@ -154,8 +157,9 @@
       <li class="project project--field-2">
         <div class="project__inner">
           <div class="project__body">
+            <p class="project__year">2024</p>
             <h3 class="project__title" data-split>Ledger</h3>
-            <p class="project__role">2024 &middot; Design systems &middot; React engineering</p>
+            <p class="project__role">Design systems / React engineering</p>
             <p class="project__summary">
               A component library and token pipeline shared between Figma and
               code, with documentation and visual regression coverage.
@@ -174,8 +178,9 @@
       <li class="project project--field-3">
         <div class="project__inner">
           <div class="project__body">
+            <p class="project__year">2024</p>
             <h3 class="project__title" data-split>Quarry</h3>
-            <p class="project__role">2024 &middot; UX/UI design &middot; Front-end development</p>
+            <p class="project__role">UX/UI design / Front-end development</p>
             <p class="project__summary">
               Operations analytics for dense, keyboard-driven monitoring.
               Configurable boards, saved views, and a query builder.
@@ -194,8 +199,9 @@
       <li class="project project--field-4">
         <div class="project__inner">
           <div class="project__body">
+            <p class="project__year">2023</p>
             <h3 class="project__title" data-split>Broadsheet</h3>
-            <p class="project__role">2023 &middot; Product design &middot; Full-stack development</p>
+            <p class="project__role">Product design / Full-stack development</p>
             <p class="project__summary">
               Editorial publishing for a small newsroom. Composable story blocks,
               revision history, and a review workflow built for deadlines.
@@ -211,6 +217,12 @@
       </li>
 
     </ol>
+
+    <p class="work__outlet" data-anim>
+      More in the archive on
+      <a href="https://github.com/" rel="me noopener">GitHub</a>
+      and <a href="https://read.cv/" rel="me noopener">Read.cv</a>.
+    </p>
   </section>
 
   <!-- ===================== STUDIO ===================== -->
@@ -329,7 +341,7 @@
       <ul>
         <li><a href="#work">Work</a></li>
         <li><a href="#studio">Studio</a></li>
-        <li><a href="#services">Services</a></li>
+        <li><a href="#services">Capabilities</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>

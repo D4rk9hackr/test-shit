@@ -305,7 +305,8 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
   width: max-content;
   animation: strip-run 42s linear infinite;
 }
-.strip:hover .strip__track { animation-play-state: paused; }
+.strip:hover .strip__track,
+.strip:focus-within .strip__track { animation-play-state: paused; }
 .strip__set { display: flex; flex: none; align-items: baseline; }
 .strip__item {
   font-family: var(--display);
@@ -352,6 +353,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
   --dim: var(--paper-dim);
   --rule: rgba(242, 239, 233, .18);
   --focus: var(--signal);
+  --plate-filter: grayscale(.85) contrast(1.08) brightness(.88);
   background: var(--field);
   color: var(--paper);
   padding: clamp(28px, 4vw, 52px) var(--shell);
@@ -359,10 +361,17 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
 /* Four tints of one dark green family. The step between them is small enough
    to read as section-level variation, never as a theme change, and every tint
    stays lighter than the ink container so the sticky-stack frame reads. */
-.project--field-1 { --field: var(--field-1); }
-.project--field-2 { --field: var(--field-2); }
-.project--field-3 { --field: var(--field-3); }
-.project--field-4 { --field: var(--field-4); }
+.project--field-1 { --field: var(--field-1); --plate-filter: grayscale(.85) contrast(1.08) brightness(.88); }
+.project--field-2 { --field: var(--field-2); --plate-filter: saturate(.74) contrast(1.03) brightness(.92); }
+.project--field-3 { --field: var(--field-3); --plate-filter: grayscale(.94) contrast(1.06) brightness(.9); }
+.project--field-4 { --field: var(--field-4); --plate-filter: grayscale(.4) contrast(1.08) brightness(.9); }
+
+/* Each plate keeps its own ratio (4/3, 16/10, 3/2, 5/4) and now its own crop
+   and treatment, so four projects read as four artifacts rather than one
+   filter applied four times. */
+.project--field-1 .project__media img { object-position: 42% 36%; }
+.project--field-2 .project__media img { object-position: 58% 48%; }
+.project--field-4 .project__media img { object-position: 66% 42%; }
 
 .project__inner {
   width: 100%;
@@ -380,6 +389,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
   grid-column: 1 / -1;
   grid-row: 2;
   margin: 0;
+  position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: rgba(242, 239, 233, .12);
@@ -406,6 +416,14 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
   letter-spacing: -.03em;
   text-wrap: balance;
 }
+.project__year {
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
 .project__role {
   margin-top: 12px;
   font-family: var(--mono);
@@ -421,17 +439,47 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
   font-size: clamp(15px, .5vw + 14px, 17px);
 }
 
+/* Overflow outlet after the work stack: an honest exit now that the cards
+   themselves are not links. */
+.work__outlet {
+  margin: clamp(20px, 3vw, 36px) var(--shell) clamp(48px, 8vh, 104px);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: .05em;
+  color: var(--paper-dim);
+}
+.work__outlet a {
+  color: var(--paper);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: border-color var(--ctrl), color var(--ctrl);
+}
+.work__outlet a:hover { border-bottom-color: var(--signal); }
+
 .project__media img {
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: grayscale(.6) contrast(1.06);
-  transition: transform 700ms var(--ease), filter 700ms var(--ease);
+  filter: var(--plate-filter);
+  transition: filter 700ms var(--ease);
 }
+/* Plates respond to hover and focus with a brightness lift only. There is no
+   scale or zoom: these cards are not links until real case studies exist, so
+   nothing here may suggest they are. */
 .project:hover .project__media img,
-.project:focus-within .project__media img {
-  transform: scale(1.035);
-  filter: grayscale(.12) contrast(1.06);
+.project:focus-within .project__media img { filter: var(--plate-filter) brightness(1.06); }
+
+/* Signal-tinted duotone on field 3: the one plate that takes the accent. */
+.project--field-3 .project__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--signal);
+  mix-blend-mode: color;
+  opacity: .42;
+  pointer-events: none;
+  transition: opacity 500ms var(--ease);
 }
+.project--field-3:hover .project__media::after { opacity: .3; }
 
 /* Sticky-stack chapters: CSS position:sticky does the pinning (robust next
    to a smooth-scroll engine); GSAP only scrubs the outgoing card's scale.
@@ -720,6 +768,5 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 10px); }
   .strip__set[aria-hidden="true"] { display: none; }
   .strip__set { flex-wrap: wrap; justify-content: center; }
   .project__media img { transition: none; }
-  .project:hover .project__media img { transform: none; }
   .service__name { -webkit-mask-image: none; mask-image: none; }
 }
