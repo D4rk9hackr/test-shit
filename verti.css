@@ -1,0 +1,459 @@
+/* =========================================================================
+   ZN-01 White Verti — character portrait
+
+   Colour rule changed on purpose: the buddy was strictly monochrome with
+   blush as the single exception. ZN-01 is a cyberpunk character, so it earns
+   one accent — neon cyan, reserved for cyber activity (the glow, the
+   waveform, the live dot). Blush stays the only warm mark. Nothing else on
+   the page is allowed a hue.
+   ========================================================================= */
+
+:root {
+  --void: #000;
+  --face: #fff;
+  --neon: #2de2ff;      /* cyber activity: glow, waveform, live dot */
+  --blush: #ff8fa3;     /* the only warm mark */
+  --line: rgba(255, 255, 255, .14);
+  --line-soft: rgba(255, 255, 255, .07);
+  --dim: rgba(255, 255, 255, .56);
+  --faint: rgba(255, 255, 255, .34);
+
+  --shell: clamp(16px, 4vw, 40px);
+  --display: "Syne", "Space Grotesk", system-ui, sans-serif;
+  --text: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--void); -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--void);
+  color: #fff;
+  font-family: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+p, h1 { margin: 0; }
+
+::selection { background: var(--neon); color: #000; }
+
+:focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* entrance: visible without JS */
+.js-fade { transition: opacity 520ms var(--ease); }
+.js:not(.is-ready) .js-fade { opacity: 0; }
+.spec { transition-delay: 80ms; }
+.dock { transition-delay: 120ms; }
+
+/* data streams ----------------------------------------------------------- */
+
+.streams {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .34em;
+  line-height: 2.6;
+  color: rgba(45, 226, 255, .16);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 50%, transparent 30%, #000 78%);
+          mask-image: radial-gradient(120% 90% at 50% 50%, transparent 30%, #000 78%);
+}
+
+.stream {
+  position: absolute;
+  top: -60%;
+  white-space: nowrap;
+  animation: drift linear infinite;
+}
+.stream:nth-child(1) { left: 4%;  animation-duration: 34s; animation-delay: -3s; }
+.stream:nth-child(2) { left: 17%; animation-duration: 41s; animation-delay: -18s; }
+.stream:nth-child(3) { left: 29%; animation-duration: 29s; animation-delay: -9s; }
+.stream:nth-child(4) { left: 44%; animation-duration: 47s; animation-delay: -30s; }
+.stream:nth-child(5) { left: 58%; animation-duration: 33s; animation-delay: -21s; }
+.stream:nth-child(6) { left: 71%; animation-duration: 44s; animation-delay: -6s; }
+.stream:nth-child(7) { left: 83%; animation-duration: 31s; animation-delay: -25s; }
+.stream:nth-child(8) { left: 93%; animation-duration: 38s; animation-delay: -14s; }
+
+@keyframes drift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(62%); }
+}
+
+/* corner registration ticks */
+.corners i {
+  position: fixed;
+  z-index: 8;
+  width: 14px; height: 14px;
+  border: 0 solid rgba(255, 255, 255, .3);
+  pointer-events: none;
+}
+.corners i:nth-child(1) { top: 10px; left: 10px;  border-top-width: 1px; border-left-width: 1px; }
+.corners i:nth-child(2) { top: 10px; right: 10px; border-top-width: 1px; border-right-width: 1px; }
+.corners i:nth-child(3) { bottom: 10px; left: 10px;  border-bottom-width: 1px; border-left-width: 1px; }
+.corners i:nth-child(4) { bottom: 10px; right: 10px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* topbar ------------------------------------------------------------------ */
+
+.topbar {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 15px var(--shell);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: .04em;
+}
+.wordmark__sub {
+  font-family: var(--text);
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: .1em;
+  color: var(--faint);
+  margin-left: 8px;
+}
+
+.readout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--dim);
+}
+.readout__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--neon);
+}
+.readout__tally { color: var(--faint); }
+
+/* stage ------------------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(26px, 5vh, 60px) var(--shell);
+  overflow: hidden;
+}
+
+.cross { position: absolute; background: rgba(255, 255, 255, .05); pointer-events: none; }
+.cross--v { left: 50%; top: 0; bottom: 0; width: 1px; }
+.cross--h { top: 50%; left: 0; right: 0; height: 1px; }
+
+.watermark {
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(56px, 13vw, 200px);
+  letter-spacing: -.05em;
+  color: rgba(255, 255, 255, .05);
+  white-space: nowrap;
+  text-align: center;
+  user-select: none;
+  transition: opacity 160ms linear;
+}
+.watermark.is-swapping { opacity: 0; }
+
+.figure {
+  /* 46vh leaves room for the caption and the four-row dock below, so the
+     whole instrument stays on one screen instead of spilling 25px */
+  --fs: clamp(210px, min(54vmin, 46vh), 460px);
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+}
+
+/* the character ----------------------------------------------------------- */
+
+.pet {
+  width: var(--fs);
+  height: var(--fs);
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lean {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+}
+
+.face { display: block; width: 100%; height: 100%; }
+.js:not(.is-ready) .face { opacity: 0; }
+.js.is-ready .face { animation: faceIn 560ms var(--ease) both; }
+
+@keyframes faceIn {
+  from { opacity: 0; transform: scale(.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.pulse {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(45, 226, 255, .8);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* thinking cluster -------------------------------------------------------- */
+
+.thinker {
+  opacity: 0;
+  transition: opacity 220ms var(--ease-out);
+}
+.thinker__spin {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.thinker__dot { fill: var(--neon); }
+
+.face[data-state="thinking"] .thinker { opacity: 1; }
+.face[data-state="thinking"] .thinker__spin { animation: orbit 3.6s linear infinite; }
+
+@keyframes orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* glow: brighter while it is actually doing something */
+.halo { opacity: .55; transition: opacity 320ms var(--ease-out); }
+.face[data-state="listening"] .halo,
+.face[data-state="speaking"] .halo { opacity: 1; }
+.face[data-state="thinking"] .halo { opacity: .8; }
+
+/* eyes -------------------------------------------------------------------- */
+
+.face { --sx: 1; --sy: 1; --tx: 0px; --ty: 0px; --rot: 0deg; }
+
+.eyes-blink {
+  transform: none;
+  transition: transform 90ms ease;
+}
+.eyes-blink.is-blinking,
+.eyes-blink.is-waking {
+  transform: translate(0, 222px) scale(1, .05) translate(0, -222px);
+}
+
+.eye {
+  --ox: 200px;
+  --oy: 222px;
+  fill: #000;
+  transform:
+    translate(var(--tx), var(--ty))
+    translate(var(--ox), var(--oy))
+    rotate(var(--rot))
+    scale(var(--sx), var(--sy))
+    translate(calc(-1 * var(--ox)), calc(-1 * var(--oy)));
+  transition: transform 340ms var(--ease-in-out);
+}
+.eye--r { --ox: 312px; }
+
+/* listening: attentive. speaking: wide. thinking: eyes drift upward.
+   Each is a proportion change on the same two ovals, never a new shape. */
+.face[data-state="listening"] .eye { --sy: 1.1; --ty: -3px; }
+.face[data-state="speaking"] .eye  { --sy: 1.22; --sx: 1.06; --ty: -6px; }
+.face[data-state="thinking"] .eye {
+  --sy: .82; --ty: 22px;
+  clip-path: url(#lidTop);
+}
+.face[data-state="thinking"] .eye--l { --rot: -5deg; }
+.face[data-state="thinking"] .eye--r { --rot: 5deg; }
+
+/* blush: the only warm mark on the character */
+.blush circle { fill: var(--blush); }
+
+/* voice waveform ---------------------------------------------------------- */
+
+.wave__axis {
+  stroke: rgba(0, 0, 0, .16);
+  stroke-width: 1;
+}
+.wave__bars rect {
+  fill: #0b3d47;
+  transition: fill 200ms linear;
+}
+.face[data-state="listening"] .wave__bars rect,
+.face[data-state="speaking"] .wave__bars rect { fill: var(--neon); }
+.face[data-state="thinking"] .wave__bars rect { fill: rgba(45, 226, 255, .45); }
+
+/* caption + spec ---------------------------------------------------------- */
+
+.caption {
+  margin-top: clamp(20px, 4vh, 34px);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(19px, 2.6vw, 27px);
+  letter-spacing: -.01em;
+  text-align: center;
+  transition: opacity 520ms 80ms var(--ease);
+  transition-delay: 80ms;
+}
+.caption.is-fading { opacity: 0; transition: opacity 140ms var(--ease-out); }
+.js.is-ready .caption,
+.js.is-ready .caption.is-fading {
+  transition: opacity 180ms var(--ease-out);
+  transition-delay: 0ms;
+}
+
+.spec {
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .09em;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* dock -------------------------------------------------------------------- */
+
+.dock {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 0 var(--shell) clamp(18px, 3.5vh, 34px);
+}
+
+.states, .actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+}
+
+.states button, .act {
+  background: var(--void);
+  color: var(--dim);
+  border: 0;
+  padding: 11px 16px;
+  font-family: var(--text);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: color 160ms linear, background 160ms linear;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .states button:hover, .act:hover { color: #fff; background: rgba(255, 255, 255, .06); }
+}
+
+.states button[aria-pressed="true"] { background: #fff; color: #000; }
+.act[aria-pressed="true"] { background: var(--neon); color: #000; }
+
+.compose {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: min(560px, 100%);
+  border: 1px solid var(--line);
+}
+.compose:focus-within { border-color: rgba(45, 226, 255, .55); }
+
+.compose input {
+  min-width: 0;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-family: var(--text);
+  font-size: 15px;
+  padding: 12px 15px;
+}
+.compose input::placeholder { color: var(--faint); }
+.compose input:focus { outline: none; }
+
+.send {
+  background: #fff;
+  color: #000;
+  border: 0;
+  border-left: 1px solid var(--line);
+  font-family: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: background 160ms linear;
+}
+@media (hover: hover) and (pointer: fine) {
+  .send:hover { background: rgba(255, 255, 255, .84); }
+}
+
+.hint {
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  color: var(--faint);
+  text-align: center;
+  min-height: 1.4em;
+}
+
+/* responsive -------------------------------------------------------------- */
+
+@media (max-width: 560px) {
+  .topbar { justify-content: center; text-align: center; padding: 11px var(--shell); }
+  .figure { --fs: clamp(170px, 56vw, 280px); }
+  .states button, .act { padding: 9px 11px; font-size: 11.5px; }
+  .caption { margin-top: 16px; font-size: 18px; }
+  .spec { display: none; }
+  .dock { gap: 9px; }
+  .hint { font-size: 11px; }
+}
+
+/* reduced motion ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .js-fade, .caption { transition-duration: 200ms !important; transition-delay: 0ms !important; }
+  .stream { animation: none; }
+  .streams { opacity: .5; }
+}

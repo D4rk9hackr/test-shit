@@ -32,6 +32,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   display: grid;
+  /* topbar / stage / dock */
   grid-template-rows: auto minmax(0, 1fr) auto;
   background: var(--void);
   color: #fff;

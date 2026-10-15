@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>ZN-01 White Verti</title>
+<meta name="description" content="ZN-01 (White Verti): an interactive character portrait. A matte white icon that watches your cursor, ripples with your voice, and thinks out loud.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="verti.css">
+
+<script>document.documentElement.className = "js";</script>
+</head>
+
+<body class="verti">
+
+<!-- faint data streams: context, not content -->
+<div class="streams" aria-hidden="true">
+  <span class="stream">01001110 01011010 00110011 01010101</span>
+  <span class="stream">10110010 01101101 11001001 00110101</span>
+  <span class="stream">01100101 10010110 01001101 11100010</span>
+  <span class="stream">11010100 00101101 01010011 10010010</span>
+  <span class="stream">00110110 01101001 10110001 01001100</span>
+  <span class="stream">01001010 11010110 00110011 01011010</span>
+  <span class="stream">10100110 01001101 11001010 00110110</span>
+  <span class="stream">01101101 10010011 01010110 11000101</span>
+</div>
+
+<div class="corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="topbar js-fade">
+  <h1 class="wordmark">ZN-01 <span class="wordmark__sub">White Verti</span></h1>
+  <p class="readout">
+    <span class="readout__dot" aria-hidden="true"></span>
+    state: <span id="readoutState">idle</span>
+    <span class="readout__tally" aria-hidden="true">· pulses <span id="pulseCount">0</span></span>
+  </p>
+</header>
+
+<main class="stage">
+  <div class="cross cross--v" aria-hidden="true"></div>
+  <div class="cross cross--h" aria-hidden="true"></div>
+  <p class="watermark js-fade" id="watermark" aria-hidden="true">verti</p>
+
+  <div class="figure">
+    <button class="pet" type="button" id="pet" aria-label="ZN-01, press to make it speak">
+      <span class="lean" id="lean">
+        <svg class="face" id="face" viewBox="0 0 512 512" data-state="idle" aria-hidden="true" focusable="false">
+          <defs>
+            <!-- The glow has to peak at the silhouette edge, not the centre:
+                 the shell (r=180) hides everything inside 72% of this disc,
+                 so a centre-peaked gradient only ever showed its faint rim. -->
+            <radialGradient id="haloGrad" cx="50%" cy="47%" r="53%">
+              <stop offset="0%" stop-color="#2de2ff" stop-opacity=".08"/>
+              <stop offset="68%" stop-color="#2de2ff" stop-opacity=".10"/>
+              <stop offset="74%" stop-color="#2de2ff" stop-opacity=".30"/>
+              <stop offset="88%" stop-color="#2de2ff" stop-opacity=".10"/>
+              <stop offset="100%" stop-color="#2de2ff" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- matte white with just enough falloff to read as a curve -->
+            <linearGradient id="shellGrad" x1="18%" y1="8%" x2="82%" y2="96%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="62%" stop-color="#f7f7f8"/>
+              <stop offset="100%" stop-color="#dfe0e4"/>
+            </linearGradient>
+
+            <filter id="waveGlow" x="-40%" y="-140%" width="180%" height="380%">
+              <feGaussianBlur stdDeviation="3.2" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <clipPath id="faceClip"><circle cx="256" cy="256" r="180"/></clipPath>
+            <clipPath id="lidTop" clipPathUnits="userSpaceOnUse"><rect x="0" y="0" width="512" height="222"/></clipPath>
+            <clipPath id="lidLow" clipPathUnits="userSpaceOnUse"><rect x="0" y="222" width="512" height="290"/></clipPath>
+          </defs>
+
+          <!-- thinking cluster: three dots orbiting above and behind the head -->
+          <g class="thinker" id="thinker" aria-hidden="true">
+            <g class="thinker__spin">
+              <circle class="thinker__dot" cx="256" cy="50" r="6.5"/>
+              <circle class="thinker__dot" cx="277" cy="72" r="5"/>
+              <circle class="thinker__dot" cx="235" cy="72" r="5"/>
+            </g>
+          </g>
+
+          <!-- neon glow emanating from the character -->
+          <circle class="halo" cx="256" cy="262" r="250" fill="url(#haloGrad)"/>
+
+          <!-- the shell -->
+          <circle class="shell" cx="256" cy="256" r="180" fill="url(#shellGrad)"/>
+          <circle class="shell__rim" cx="256" cy="256" r="179" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="2"/>
+
+          <!-- blush: the only warm mark. Sits outboard of the eyes so it can
+               never be clipped by them widening in the speaking state. -->
+          <g class="blush" aria-hidden="true">
+            <circle cx="150" cy="290" r="16"/>
+            <circle cx="362" cy="290" r="16"/>
+          </g>
+
+          <!-- eyes -->
+          <g clip-path="url(#faceClip)">
+            <g class="eyes-glitch">
+              <g class="eyes-track" id="eyesTrack">
+                <g class="eyes-blink" id="eyesBlink">
+                  <ellipse class="eye eye--l" cx="200" cy="222" rx="30" ry="45"/>
+                  <ellipse class="eye eye--r" cx="312" cy="222" rx="30" ry="45"/>
+                </g>
+              </g>
+            </g>
+          </g>
+
+          <!-- voice output: the waveform lives where a mouth would be -->
+          <g class="wave" aria-hidden="true">
+            <line class="wave__axis" x1="176" y1="322" x2="336" y2="322"/>
+            <g class="wave__bars" id="waveBars" filter="url(#waveGlow)"></g>
+          </g>
+        </svg>
+      </span>
+      <span class="pulse" id="pulse" aria-hidden="true"></span>
+    </button>
+
+    <p class="caption js-fade" id="caption" aria-live="polite">standing by.</p>
+    <p class="spec" aria-hidden="true">one circle · two ellipses · one waveform</p>
+  </div>
+</main>
+
+<footer class="dock js-fade">
+  <div class="states" role="group" aria-label="Character state">
+    <button type="button" class="state" data-state="idle" aria-pressed="true">idle</button>
+    <button type="button" class="state" data-state="listening" aria-pressed="false">listening</button>
+    <button type="button" class="state" data-state="thinking" aria-pressed="false">thinking</button>
+    <button type="button" class="state" data-state="speaking" aria-pressed="false">speaking</button>
+  </div>
+
+  <form class="compose" id="compose">
+    <label class="sr-only" for="say">Say something to ZN-01</label>
+    <input id="say" type="text" autocomplete="off" placeholder="say something…">
+    <button type="submit" class="send">send</button>
+  </form>
+
+  <div class="actions">
+    <button type="button" class="act" id="micBtn" aria-pressed="false">use microphone</button>
+    <button type="button" class="act" id="speakBtn">make it speak</button>
+  </div>
+
+  <p class="hint" id="hint">the waveform rides your microphone, or a synthetic pattern</p>
+</footer>
+
+<script src="verti.js" defer></script>
+</body>
+</html>
