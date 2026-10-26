@@ -54,6 +54,10 @@ p, h1 { margin: 0; }
 
 /* corner registration ticks ------------------------------------------------ */
 
+/* the bracket container must not join the body grid — its children are
+   fixed, but an in-flow empty div still occupies grid row 1 and pushes
+   the topbar into the stretch row */
+.corners { position: fixed; inset: 0; pointer-events: none; }
 .corners i {
   position: fixed;
   z-index: 8;
